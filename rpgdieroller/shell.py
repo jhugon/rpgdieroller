@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from dierolls import *
+from rpgdieroller.dierolls import *
 import cmd
 
 class DieRollerShell(cmd.Cmd):
@@ -33,6 +33,25 @@ class DieRollerShell(cmd.Cmd):
                 print("Error: there must be 3 positive integer arguments")
                 return
         print(rollcountsuccess(*argnums))
+
+    def do_ironsworn(self,args):
+        "Do an Ironsworn action roll with the modifiers as arguments '+2 -2' or anything you can put in the roll command"
+        print(ironswornaction(args))
+
+    def do_ironswornprogress(self,args):
+        "Do an Ironsworn progress roll with the amount of progress as an integer argument '2' or '9'"
+        arglist = args.split(" ")
+        if len(arglist) != 1:
+            print("Error: there must be exactly 1 integer argument")
+            return
+        argnums = None
+        try:
+            argnums = [int(x) for x in arglist]
+        except ValueError:
+            print("Error: there must be exactly 1 integer argument")
+            return
+        
+        print(ironswornprogress(argnums[0]))
 
     def do_exit(self,_):
         "Exit the shell."

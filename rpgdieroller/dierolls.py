@@ -98,12 +98,6 @@ def fateroll(modifiers="",n_dice=4):
     modifiers_parsed, modifier_results = parser(modifiers)
     modifier_results_sum = sum(modifier_results)
     total_sum = roll_sum + modifier_results_sum
-    #if len(modifier_results) > 0 and (str in [type(x) for x in modifiers_parsed]):
-    #    return "{t.bold}{0}{t.normal} = {1} + {2} = ({3}) + {4} = 4dF + {5}".format(total_sum,roll_sum,modifier_results_sum," + ".join(convstr(rolls))," + ".join(convstr(modifier_results))," + ".join(convstr(modifiers_parsed)),t=term)
-    #if len(modifier_results) > 0:
-    #    return "{t.bold}{0}{t.normal} = {1} + {2} = ({3}) + {4}".format(total_sum,roll_sum,modifier_results_sum," + ".join(convstr(rolls))," + ".join(convstr(modifier_results))," + ".join(convstr(modifiers_parsed)),t=term)
-    #else:
-    #    return "{t.bold}{0}{t.normal} = {3}".format(total_sum,roll_sum,modifier_results_sum," + ".join(convstr(rolls))," + ".join(convstr(modifier_results))," + ".join(convstr(modifiers_parsed)),t=term)
     if len(modifier_results) > 0:
         return "{t.bold}{0}{t.normal} = {1} + {2} = ({3}) + {4} = {n_dice}dF + {5}".format(total_sum,roll_sum,modifier_results_sum," + ".join(convstr(rolls))," + ".join(convstr(modifier_results))," + ".join(convstr(modifiers_parsed)),t=term,n_dice=n_dice)
     else:
@@ -121,6 +115,44 @@ def rollcountsuccess(n_dice,n_sides,n_for_success):
     if n_successes > 1:
         s = "es"
     return "{t.bold}{0}{t.normal} Success{s} for {n_dice}d{n_sides} >= {n_for_success}, rolls: ({1})".format(n_successes,", ".join(convstr(rolls)),t=term,n_dice=n_dice,n_sides=n_sides,n_for_success=n_for_success,s=s)
+
+def ironswornaction(modifiers=""):
+    """
+    The argument is just modifiers added to your action die
+    """
+    t = Terminal()
+    modifiers_parsed, modifier_results = parser(modifiers)
+    if len(modifiers_parsed) == 0:
+        modifiers_parsed = ["0"]
+    action_roll = rolldie(6)
+    action_modified = action_roll + sum(modifier_results)
+    challenge_rolls = [rolldie(10) for x in range(2)]
+    successes = [1 if action_modified > x else 0 for x in challenge_rolls]
+    nsuccesses = sum(successes)
+    if nsuccesses == 2:
+        result = "Strong hit"
+    elif nsuccesses == 1:
+        result = "Weak hit"
+    else:
+        result = "Miss"
+    return f"{t.bold}{result:11}{t.normal} action die: {action_roll:1} + mods: {' + '.join(convstr(modifiers_parsed)):7} = {t.bold}{action_modified:2}{t.normal} vs challenge dice: {challenge_rolls[0]:2}, {challenge_rolls[1]:2}"
+
+def ironswornprogress(progress):
+    """
+    The progress argument is how many filled boxes you have on your progress track
+    Two d10s are rolled and compared to this target number.
+    """
+    t = Terminal()
+    challenge_rolls = [rolldie(10) for x in range(2)]
+    successes = [1 if progress > x else 0 for x in challenge_rolls]
+    nsuccesses = sum(successes)
+    if nsuccesses == 2:
+        result = "Strong hit"
+    elif nsuccesses == 1:
+        result = "Weak hit"
+    else:
+        result = "Miss"
+    return f"{t.bold}{result:11}{t.normal} progress {progress:2} vs challenge dice: {challenge_rolls[0]:2}, {challenge_rolls[1]:2}"
 
 if __name__ == "__main__":
     print(dierollexpr("50d23 "))
@@ -154,3 +186,13 @@ if __name__ == "__main__":
     print(rollcountsuccess(50,6,4))
     print(rollcountsuccess(50,6,4))
     print(rollcountsuccess(1,20,15))
+    print(ironswornprogress(10))
+    print(ironswornprogress(4))
+    print(ironswornprogress(4))
+    print(ironswornprogress(3))
+    print(ironswornprogress(7))
+    print(ironswornaction())
+    print(ironswornaction("+2"))
+    print(ironswornaction("0"))
+    print(ironswornaction("+2-4"))
+    print(ironswornaction("+4"))
