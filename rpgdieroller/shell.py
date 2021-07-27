@@ -63,7 +63,9 @@ class DieRollerShell(cmd.Cmd):
         print("Exiting.")
         return True
 
+def main():
+    DieRollerShell().cmdloop()
 
 if __name__ == "__main__":
+    main()
 
-    DieRollerShell().cmdloop()
