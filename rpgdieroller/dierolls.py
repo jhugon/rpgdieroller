@@ -4,6 +4,20 @@ from random import randint
 from blessings import Terminal
 import re
 
+TERM_FORMATTING=True
+term = Terminal()
+
+class TermSilly:
+  def __init__(self):
+    self.bold = ""
+    self.normal = ""
+
+def disable_term_formatting():
+    global TERM_FORMATTING
+    global term
+    TERM_FORMATTING = False
+    term = TermSilly()
+
 def convstr(x):
     return [str(y) for y in x]
 
@@ -65,7 +79,6 @@ def parser(inputstr):
     return parsed_atoms , result
 
 def resultprinter(parsed_expr, result):
-    term = Terminal()
     resultsum = sum(result)
     if len(result) > 1 and (str in [type(x) for x in parsed_expr]):
         return "{t.bold}{0}{t.normal} = {1} = {2}".format(resultsum," + ".join(convstr(result))," + ".join(convstr(parsed_expr)),t=term)
@@ -92,7 +105,6 @@ def dierollexpr(x):
     return resultstr
 
 def fateroll(modifiers="",n_dice=4):
-    term = Terminal()
     rolls = rollfatedice(n_dice)
     roll_sum = sum(rolls)
     modifiers_parsed, modifier_results = parser(modifiers)
@@ -107,7 +119,6 @@ def rollcountsuccess(n_dice,n_sides,n_for_success):
     """
     You must roll n_for_success or greater (>=) to succeed
     """
-    term = Terminal()
     rolls = [rolldie(n_sides) for i in range(n_dice)]
     successes = [1 if x >= n_for_success else 0 for x in rolls]
     n_successes = sum(successes)
@@ -120,7 +131,7 @@ def ironswornaction(modifiers=""):
     """
     The argument is just modifiers added to your action die
     """
-    t = Terminal()
+    t = term
     modifiers_parsed, modifier_results = parser(modifiers)
     if len(modifiers_parsed) == 0:
         modifiers_parsed = ["0"]
@@ -142,7 +153,7 @@ def ironswornprogress(progress):
     The progress argument is how many filled boxes you have on your progress track
     Two d10s are rolled and compared to this target number.
     """
-    t = Terminal()
+    t = term
     challenge_rolls = [rolldie(10) for x in range(2)]
     successes = [1 if progress > x else 0 for x in challenge_rolls]
     nsuccesses = sum(successes)
@@ -155,6 +166,7 @@ def ironswornprogress(progress):
     return f"{t.bold}{result:11}{t.normal} progress {progress:2} vs challenge dice: {challenge_rolls[0]:2}, {challenge_rolls[1]:2}"
 
 if __name__ == "__main__":
+    disable_term_formatting()
     print(dierollexpr("50d23 "))
     print(dierollexpr("0"))
     print(dierollexpr("-3"))
