@@ -28,15 +28,25 @@ def OracleYesNo():
     ]
     return random.choice(choices)
 
-def IronswornPayThePrice():
-    print(importlib.resources.read_text("rpgdieroller","ironsworndata.paytheprice.csv"))
-    with importlib.resources.open_text("rpgdieroller","ironsworndata.paytheprice.csv") as data_file:
-        data_reader = csv.reader(data_file,delimiter=",",quatechar='"')
+def _loadTable(table_path):
+    #with importlib.resources.open_text("rpgdieroller",table_path) as data_file:
+    frequencies = []
+    values = []
+    with open(table_path) as data_file:
+        data_reader = csv.reader(data_file,delimiter=",",quotechar='"')
         for row in data_reader:
-            print(row)
+            frequencies.append(float(row[0]))
+            values.append(row[1])
+    return frequencies, values
+
+def IronswornPayThePrice():
+    frequencies, values = _loadTable("ironsworndata/paytheprice.csv")
+    result_list = random.choices(values,weights=frequencies)
+    return result_list[0]
 
 if __name__ == "__main__":
 
     for i in range(10):
         print(OracleYesNo())
-    IronswornPayThePrice()
+    for i in range(30):
+        print(IronswornPayThePrice())
