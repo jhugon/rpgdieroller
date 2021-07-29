@@ -13,7 +13,7 @@ setup(name='rpgdieroller',
       long_description=long_description,
       author='Justin Hugon',
       author_email='opensource AT hugonweb.com',
-      version='1.0.alpha',
+      version='0.1.a0',
       packages=find_packages(),
       license='GPLv3',
       classifiers = [
@@ -28,5 +28,7 @@ setup(name='rpgdieroller',
       provides=['rpgdieroller'],
       setup_requires = requires,
       install_requires = requires,
+      include_package_data = True,
+      package_data ={"rpgdierollershell":["*.csv","*/*.csv"]},
       )
 
