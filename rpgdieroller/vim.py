@@ -3,6 +3,7 @@ Most functions in here when used in vim, expect vim functions to have argument n
 """
 
 import rpgdieroller.dierolls as rpgroller
+import rpgdieroller.oracles as oracles
 import vim
 import sys
 
@@ -87,5 +88,45 @@ def ironswornprogress():
     lines = []
     lines.append("# Ironsworn Progress Roll:")
     lines.append("# "+rpgroller.ironswornprogress(n_progress))
+    vim.current.buffer.append(lines,cur_col)
+    _update_cursor(len(lines))
+
+def OracleYesNo():
+    cur_col = vim.current.window.cursor[0]
+    lines = []
+    lines.append("# Simple oracle roll:")
+    lines.append("# "+oracles.OracleYesNo())
+    vim.current.buffer.append(lines,cur_col)
+    _update_cursor(len(lines))
+
+def IronswornPayThePrice():
+    cur_col = vim.current.window.cursor[0]
+    lines = []
+    lines.append("# Ironsworn pay the price:")
+    lines.append("# "+oracles.IronswornPayThePrice())
+    vim.current.buffer.append(lines,cur_col)
+    _update_cursor(len(lines))
+
+def IronswornCharacterOracle():
+    cur_col = vim.current.window.cursor[0]
+    lines = []
+    lines.append("# Ironsworn character oracle:")
+    lines.append("# "+oracles.IronswornCharacter())
+    vim.current.buffer.append(lines,cur_col)
+    _update_cursor(len(lines))
+
+def IronswornActionThemeOracle():
+    cur_col = vim.current.window.cursor[0]
+    lines = []
+    lines.append("# Ironsworn action-theme oracle:")
+    lines.append("# "+oracles.IronswornActionTheme())
+    vim.current.buffer.append(lines,cur_col)
+    _update_cursor(len(lines))
+
+def IronswornLocationOracle():
+    cur_col = vim.current.window.cursor[0]
+    lines = []
+    lines.append("# Ironsworn location oracle:")
+    lines.append("# "+oracles.IronswornLocation())
     vim.current.buffer.append(lines,cur_col)
     _update_cursor(len(lines))

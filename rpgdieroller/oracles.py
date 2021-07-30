@@ -9,20 +9,6 @@ from rpgdieroller import ironsworndata
 import rpgdieroller.ironsworndata
 import csv
 
-TERM_FORMATTING=True
-term = Terminal()
-
-class TermSilly:
-  def __init__(self):
-    self.bold = ""
-    self.normal = ""
-
-def disable_term_formatting():
-    global TERM_FORMATTING
-    global term
-    TERM_FORMATTING = False
-    term = TermSilly()
-
 def OracleYesNo():
     choices = [
         "Yes and...",
@@ -64,7 +50,9 @@ def IronswornCharacter():
     disp = _getEntryFromTable("ironsworndata","character_disposition.csv")
     role = _getEntryFromTable("ironsworndata","character_role.csv")
     goal = _getEntryFromTable("ironsworndata","character_goal.csv")
-    return f"{desc}, {disp} {role} wants to {goal}"
+    ironlandername = _getEntryFromTable("ironsworndata","ironlander_names.csv")
+    elfname = _getEntryFromTable("ironsworndata","elf_names.csv")
+    return f"{desc}, {disp} {role} wants to {goal} named {ironlandername} (human) or {elfname} (elf)"
 
 def IronswornActionTheme():
     action = _getEntryFromTable("ironsworndata","action.csv")
