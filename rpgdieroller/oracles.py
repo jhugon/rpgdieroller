@@ -37,9 +37,14 @@ def _loadTable(submodule,table_path):
                 values.append(row[1])
     return frequencies, values
 
-def _getEntryFromTable(submodule,table_path):
+def _getEntryFromTable(submodule,table_path,cum_weights=False):
     frequencies, values = _loadTable(submodule,table_path)
-    result_list = random.choices(values,weights=frequencies)
+    result_list = None
+    if cum_weights:
+        frequencies = [x-1 for x in frequencies]
+        result_list = random.choices(values,cum_weights=frequencies)
+    else:
+        result_list = random.choices(values,weights=frequencies)
     return result_list[0]
 
 def IronswornPayThePrice():
@@ -52,7 +57,10 @@ def IronswornCharacter():
     goal = _getEntryFromTable("ironsworndata","character_goal.csv")
     ironlandername = _getEntryFromTable("ironsworndata","ironlander_names.csv")
     elfname = _getEntryFromTable("ironsworndata","elf_names.csv")
-    return f"{desc}, {disp} {role} wants to {goal} named {ironlandername} (human) or {elfname} (elf)"
+    giantname = _getEntryFromTable("ironsworndata","giant_names.csv")
+    varouname = _getEntryFromTable("ironsworndata","varou_names.csv")
+    trollname = _getEntryFromTable("ironsworndata","troll_names.csv")
+    return f"{desc}, {disp} {role} wants to {goal} named {ironlandername} (human), {elfname} (elf), {giantname} (giant), {varouname} (varou), or {trollname} (troll)"
 
 def IronswornActionTheme():
     action = _getEntryFromTable("ironsworndata","action.csv")
@@ -64,6 +72,23 @@ def IronswornLocation():
     desc = _getEntryFromTable("ironsworndata","location_descriptor.csv")
     return f"{desc} {loc}"
 
+def IronswornSettlement():
+    pre = _getEntryFromTable("ironsworndata","settlement_name_prefix.csv")
+    suf = _getEntryFromTable("ironsworndata","settlement_name_suffix.csv")
+    trouble = _getEntryFromTable("ironsworndata","settlement_trouble.csv")
+    return f"{trouble} in {pre}{suf}"
+
+def IronswornCombatAction():
+    return _getEntryFromTable("ironsworndata","combat_actions.csv",True)
+
+def IronswornChallengeRank():
+    return _getEntryFromTable("ironsworndata","challenge_rank.csv",True)
+
+def IronswornMysticBacklash():
+    return _getEntryFromTable("ironsworndata","mystic_backlash.csv",True)
+
+def IronswornMajorPlotTwist():
+    return _getEntryFromTable("ironsworndata","major_plot_twist.csv")
 
 if __name__ == "__main__":
 
@@ -84,3 +109,23 @@ if __name__ == "__main__":
     print("\nLocation:\n==========================================")
     for i in range(30):
         print(IronswornLocation())
+
+    print("\nSettlment:\n==========================================")
+    for i in range(30):
+        print(IronswornSettlement())
+
+    print("\nCombat Action:\n==========================================")
+    for i in range(30):
+        print(IronswornCombatAction())
+
+    print("\nChallenge Rank:\n==========================================")
+    for i in range(30):
+        print(IronswornChallengeRank())
+
+    print("\nCombat Action:\n==========================================")
+    for i in range(30):
+        print(IronswornMysticBacklash())
+
+    print("\nMajor Plot Twist:\n==========================================")
+    for i in range(30):
+        print(IronswornMajorPlotTwist())

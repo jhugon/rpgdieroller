@@ -130,3 +130,43 @@ def IronswornLocationOracle():
     lines.append("# "+oracles.IronswornLocation())
     vim.current.buffer.append(lines,cur_col)
     _update_cursor(len(lines))
+
+def IronswornSettlementOracle():
+    cur_col = vim.current.window.cursor[0]
+    lines = []
+    lines.append("# Ironsworn settlement oracle:")
+    lines.append("# "+oracles.IronswornSettlement())
+    vim.current.buffer.append(lines,cur_col)
+    _update_cursor(len(lines))
+
+def IronswornCombatActionOracle():
+    cur_col = vim.current.window.cursor[0]
+    lines = []
+    lines.append("# Ironsworn combat action oracle:")
+    lines.append("# "+oracles.IronswornCombatAction())
+    vim.current.buffer.append(lines,cur_col)
+    _update_cursor(len(lines))
+
+def IronswornChallengeRankOracle():
+    cur_col = vim.current.window.cursor[0]
+    lines = []
+    lines.append("# Ironsworn challenge rank oracle:")
+    lines.append("# "+oracles.IronswornChallengeRank())
+    vim.current.buffer.append(lines,cur_col)
+    _update_cursor(len(lines))
+
+def IronswornMysticBacklashOracle():
+    cur_col = vim.current.window.cursor[0]
+    lines = []
+    lines.append("# Ironsworn mystic backlash oracle:")
+    lines.append("# "+oracles.IronswornMysticBacklash())
+    vim.current.buffer.append(lines,cur_col)
+    _update_cursor(len(lines))
+
+def IronswornMajorPlotTwistOracle():
+    cur_col = vim.current.window.cursor[0]
+    lines = []
+    lines.append("# Ironsworn major plot twist oracle:")
+    lines.append("# "+oracles.IronswornMajorPlotTwist())
+    vim.current.buffer.append(lines,cur_col)
+    _update_cursor(len(lines))
