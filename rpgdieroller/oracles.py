@@ -2,8 +2,11 @@
 
 import random
 from blessings import Terminal
-import importlib.resources
-import importlib_resources
+import sys
+if sys.version_info < (3,9):
+    import importlib_resources as implibresources
+else:
+    import importlib.resources as implibresources
 import rpgdieroller
 from rpgdieroller import ironsworndata
 import rpgdieroller.ironsworndata
@@ -22,9 +25,7 @@ def _loadTable(submodule,table_path):
     frequencies = []
     values = []
     single_col = False
-    #with open(table_path) as data_file:
-    #with importlib.resources.open_text("rpgdieroller.ironsworndata",table_path) as data_file:
-    with importlib_resources.open_text("rpgdieroller.ironsworndata",table_path) as data_file:
+    with implibresources.open_text("rpgdieroller.ironsworndata",table_path) as data_file:
         data_reader = csv.reader(data_file,delimiter=",",quotechar='"')
         for iRow, row in enumerate(data_reader):
             if iRow == 0 and len(row) == 1:
